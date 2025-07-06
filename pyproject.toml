@@ -1,7 +1,11 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "agent-experiment"
 version = "0.1.0"
-description = "Add your description here"
+description = "LangGraph multi-agent handoff patterns and examples"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -13,11 +17,17 @@ dependencies = [
     "python-dotenv>=1.1.1",
 ]
 
+[project.scripts]
+router-command = "agent_experiment.examples.router_handoff_command:main"
+router-tools = "agent_experiment.examples.router_handoff_tools:main"
+agent-handoff = "agent_experiment.examples.agent_handoff_tools:main"
+visualize-graphs = "agent_experiment.utils.visualize_graphs:main"
+
 [tool.ruff]
 line-length = 110
 target-version = "py311" # the python version to target, useful when considering code upgrades, defaults to "py310"
-# Allow imports relative to the "app" directory
-src = [".", "app", "backend/app"]
+# Allow imports relative to the "src" directory
+src = ["src"]
 show-fixes = true
 unsafe-fixes = true
 
