@@ -39,7 +39,7 @@ The system uses the **supervisor pattern** where:
 2. Install dependencies:
 
    ```bash
-   uv install
+   uv sync
    ```
 
 3. Configure your environment:
