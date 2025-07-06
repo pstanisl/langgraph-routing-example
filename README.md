@@ -119,13 +119,22 @@ def create_agent(name: str, system_message: str, model: ChatOpenAI):
     return agent_node
 ```
 
-### Graph Structure
+### Graph Structures
 
+**Supervisor Pattern:**
 ```
-User Input � Supervisor � [Support|Research|Manager] Agent � End
+User Input → Supervisor → [Support|Research|Manager] Agent → End
 ```
 
-The supervisor makes intelligent routing decisions for each user interaction, and agents focus purely on executing their specialized tasks.
+**Tool-Based Pattern:**
+```
+User Input → Supervisor Tool Router → Agent Tools → End
+```
+
+**Router Pattern:**  
+```
+User Input → Router → Agent → [Other Agent | End]
+```
 
 ## Key Components
 
@@ -161,12 +170,39 @@ class Settings(BaseSettings):
     openai_model: str = "claude-4-sonnet"
 ```
 
-## Benefits of This Approach
+## Project Structure
 
-1. **Flexibility**: Easy to add new agents - just update supervisor routing logic
-2. **Intelligence**: Model understands context better than keyword matching
-3. **Maintainability**: Clean separation of concerns between routing and execution
-4. **Scalability**: Each agent focuses on its expertise without coupling
+```
+src/agent_experiment/
+├── core/
+│   ├── config.py          # Pydantic settings configuration
+│   ├── registry.py        # Agent registry and factory
+│   └── workflow.py        # Core workflow components
+├── examples/
+│   ├── agent_handoff_tools.py     # Supervisor pattern
+│   ├── router_handoff_tools.py    # Tool-based handoff
+│   └── router_handoff_command.py  # Router pattern
+└── utils/
+    ├── graph_utils.py     # Graph utilities
+    └── visualize_graphs.py # Graph visualization
+```
+
+## Benefits of Different Approaches
+
+### Supervisor Pattern
+1. **Centralized Control**: All routing decisions in one place
+2. **Agent Simplicity**: Agents focus purely on their domain expertise
+3. **Easy Debugging**: Clear routing logic and decision points
+
+### Tool-Based Pattern  
+1. **LangGraph Integration**: Uses prebuilt ReAct components
+2. **Tool Paradigm**: Familiar tool-calling interface
+3. **Reduced Boilerplate**: Less custom graph construction
+
+### Router Pattern
+1. **Direct Handoffs**: Agents can transfer directly to each other
+2. **Distributed Control**: No single point of routing failure
+3. **Flexible Workflows**: Complex multi-step agent interactions
 
 ## Troubleshooting
 
@@ -175,6 +211,14 @@ class Settings(BaseSettings):
 - **API Key**: Ensure `OPENAI_API_KEY` is set in your `.env` file
 - **Proxy Issues**: Update `OPENAI_BASE_URL` for your proxy setup
 - **Model Compatibility**: Ensure your model supports structured output
+
+### Visualization
+
+Generate graph visualizations:
+
+```bash
+uv run visualize-graphs
+```
 
 ### Debug Mode
 
