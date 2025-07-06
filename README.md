@@ -63,12 +63,19 @@ OPENAI_MODEL=claude-4-sonnet
 
 ## Usage
 
-### Interactive Mode
+### Running Examples
 
-Run the main example:
+Run different handoff patterns:
 
 ```bash
-uv run python 03_agent_handoff_tools.py
+# Supervisor pattern (tool-based agents)
+uv run agent-handoff
+
+# Tool-based handoff with ReAct
+uv run router-tools
+
+# Router pattern with direct handoffs
+uv run router-command
 ```
 
 Try different types of requests:
