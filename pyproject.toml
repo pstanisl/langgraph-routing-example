@@ -1,0 +1,51 @@
+[project]
+name = "agent-experiment"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain-core>=0.3.68",
+    "langchain-openai>=0.3.27",
+    "langgraph>=0.5.1",
+    "loguru>=0.7.3",
+    "pydantic-settings>=2.10.1",
+    "python-dotenv>=1.1.1",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311" # the python version to target, useful when considering code upgrades, defaults to "py310"
+# Allow imports relative to the "app" directory
+src = [".", "app", "backend/app"]
+show-fixes = true
+unsafe-fixes = true
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN401", # Dynamically typed expressions (typing.Any)
+    "COM812",
+    "D100",   # Missing docstring in public class
+    "D101",   # Missing docstring in public class
+    "D102",   # Missing docstring in public method
+    "D103",   # Missing docstring in public function
+    "ERA001", # Found commented-out code
+    "FIX002", # Line contains TODO, consider resolving the issue
+    "ISC001",
+    "TD002",  # Missing author in TODO
+    "TD003",  # Missing issue link on the line following this TODO
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**/*.py" = ["S101"] # Ignore assertions in test files
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 110
+max-line-length = 110
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
