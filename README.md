@@ -133,19 +133,19 @@ def create_agent(name: str, system_message: str, model: ChatOpenAI):
 **Supervisor Pattern:**
 
 ```
-User Input → Supervisor → [Support|Research|Manager] Agent → End
+User Input → Supervisor → [Support|Research|Manager] Agent → Supervisor → End
 ```
 
 **Tool-Based Pattern:**
 
 ```
-User Input → Supervisor Tool Router → Agent Tools → End
+User Input → Supervisor Tool Router →  Transfer Tools → Agent → End
 ```
 
 **Router Pattern:**
 
 ```
-User Input → Router → Agent → [Other Agent | End]
+User Input → Router → Agent → End
 ```
 
 ## Key Components
@@ -178,9 +178,11 @@ Configuration using pydantic-settings:
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
     openai_api_key: SecretStr
-    openai_base_url: str = "https://api.openai.com/v1"
+    openai_base_url: str = "https://api.proxy.com/v1"
     openai_model: str = "claude-4-sonnet"
 ```
+
+> Proxy tested with LiteLLM
 
 ## Project Structure
 
@@ -207,17 +209,23 @@ src/agent_experiment/
 2. **Agent Simplicity**: Agents focus purely on their domain expertise
 3. **Easy Debugging**: Clear routing logic and decision points
 
+> Disadvantage: Supervisor generates the response after each agent, which can be less efficient.
+
 ### Tool-Based Pattern
 
 1. **LangGraph Integration**: Uses prebuilt ReAct components
 2. **Tool Paradigm**: Familiar tool-calling interface
 3. **Reduced Boilerplate**: Less custom graph construction
 
+> The routes with the descriptions are defined as tools and provided to the router.
+
 ### Router Pattern
 
 1. **Direct Handoffs**: Agents can transfer directly to each other
 2. **Distributed Control**: No single point of routing failure
 3. **Flexible Workflows**: Complex multi-step agent interactions
+
+> The paths needs to be defined in the router's prompt.
 
 ## Troubleshooting
 
