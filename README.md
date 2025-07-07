@@ -97,12 +97,12 @@ uv run python tests/test_handoff.py
 
 ## How It Works
 
-### Supervisor Pattern
+### Router Pattern
 
-Instead of agents deciding handoffs themselves, a central supervisor makes routing decisions:
+Instead of agents deciding handoffs themselves, a central router makes routing decisions:
 
 ```python
-def supervisor(state: AgentState) -> Command[...]:
+def router(state: AgentState) -> Command[...]:
     # Use LLM with structured output to decide routing
     model = ChatOpenAI(...).with_structured_output(NextAgent)
     response = model.invoke([system_prompt, *messages])
