@@ -2,6 +2,8 @@
 
 A demonstration of multi-agent systems using LangGraph's Command objects for intelligent agent handoffs with a supervisor pattern.
 
+> In router examples, the agents are not really "agents" in the traditional sense, but rather workflows but it is easier to refer to them as agents for consistency with the rest of the project.
+
 ## Overview
 
 This example showcases a conversational AI system with three specialized agents that can intelligently hand off tasks to each other based on conversation context:
@@ -129,16 +131,19 @@ def create_agent(name: str, system_message: str, model: ChatOpenAI):
 ### Graph Structures
 
 **Supervisor Pattern:**
+
 ```
 User Input → Supervisor → [Support|Research|Manager] Agent → End
 ```
 
 **Tool-Based Pattern:**
+
 ```
 User Input → Supervisor Tool Router → Agent Tools → End
 ```
 
-**Router Pattern:**  
+**Router Pattern:**
+
 ```
 User Input → Router → Agent → [Other Agent | End]
 ```
@@ -197,16 +202,19 @@ src/agent_experiment/
 ## Benefits of Different Approaches
 
 ### Supervisor Pattern
+
 1. **Centralized Control**: All routing decisions in one place
 2. **Agent Simplicity**: Agents focus purely on their domain expertise
 3. **Easy Debugging**: Clear routing logic and decision points
 
-### Tool-Based Pattern  
+### Tool-Based Pattern
+
 1. **LangGraph Integration**: Uses prebuilt ReAct components
 2. **Tool Paradigm**: Familiar tool-calling interface
 3. **Reduced Boilerplate**: Less custom graph construction
 
 ### Router Pattern
+
 1. **Direct Handoffs**: Agents can transfer directly to each other
 2. **Distributed Control**: No single point of routing failure
 3. **Flexible Workflows**: Complex multi-step agent interactions
